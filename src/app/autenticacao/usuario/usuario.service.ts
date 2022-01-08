@@ -8,7 +8,7 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class UsuarioService {
-
+  
   private usuarioSubject = new BehaviorSubject<Usuario>({})
 
   constructor(private tokenService: TokenService) { 
@@ -20,6 +20,8 @@ export class UsuarioService {
   decodificaJWT(){
     const token = this.tokenService.retornaToken();
     const usuario = jwt_decode(token) as Usuario
+    usuario.fullName = usuario.fullName?.split(' ').slice(0, 1).join(' ')
+    console.log(usuario.fullName);
     this.usuarioSubject.next(usuario)
   }
 
